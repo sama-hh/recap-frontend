@@ -9,17 +9,20 @@ type TodoModalProps = {
 }
 
 const TodoModal = ({isOpen, onClose, todo, onUpdate}: TodoModalProps) => {
-    const [currentTodo, setCurrentTodo] = useState(todo);
+    const [description, setDescription] = useState(todo.description);
+    const [status, setStatus] = useState(todo.status);
+
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        const updatedTodo = {...todo, description: currentTodo.description, status: currentTodo.status}
+        const updatedTodo = {...todo, description, status: status}
         onUpdate(updatedTodo);
         onClose();
     };
 
     useEffect(() => {
-        setCurrentTodo(todo);
+        setDescription(todo.description);
+        setStatus(todo.status);
     }, [todo]);
 
     return (
@@ -30,13 +33,13 @@ const TodoModal = ({isOpen, onClose, todo, onUpdate}: TodoModalProps) => {
                     <form onSubmit={handleSubmit}>
                         <input
                             type="text"
-                            value={currentTodo.description}
-                            onChange={(e) => setCurrentTodo({...todo, description: e.target.value})}
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
                             required
                         />
                         <select
-                            value={currentTodo.status}
-                            onChange={(e) => setCurrentTodo({...todo, status: e.target.value})}
+                            value={status}
+                            onChange={(e) => setStatus( e.target.value)}
                             required
                         >
                             <option value="OPEN">Open</option>
